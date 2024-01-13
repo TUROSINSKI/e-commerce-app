@@ -26,6 +26,7 @@
 .product > button {
     background: #f69a33;
     border: 1px solid;
+    border-radius: 4px;
     margin-top: 10px;
     border-color: #000c1c;
     color: black;
