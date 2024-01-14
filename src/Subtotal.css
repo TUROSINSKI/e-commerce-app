@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: space-between;
     width: 300px;
-    height: 100px;
+    height: 80px;
     padding: 20px;
     background-color: #f3f3f3;
     border: 1px solid #dddddd;
@@ -26,6 +26,6 @@
     height: 30px;
     border: 1px solid;
     margin-top: 10px;
-    border-color: #000c1c;
+    border-color: #d38730;
     color: black;
 }

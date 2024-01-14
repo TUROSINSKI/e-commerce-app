@@ -48,6 +48,8 @@
     display: flex;
     align-items: center;
     color: white;
+    margin-top: 5px;
+    margin-left: 10px;
 }
 
 .header__basketCount {
