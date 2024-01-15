@@ -17,12 +17,11 @@ function Home() {
                 return response.json();
             })
             .then(data => {
-                return Promise.all(data.map(product => {
-                    return fetch(`http://localhost:5000/api/getReviewsForProduct/${product.ProduktID}`)
-                        .then(res => res.json())
-                        .then(reviews => {
-                            return { ...product, reviews };
-                        });
+                return Promise.all(data.map(async product => {
+                    const res = await fetch(`http://localhost:5000/api/getReviewsForProduct/${product.ProduktID}`);
+                    const reviews = await res.json();
+                    const comments = reviews.map(review => review.Komentarz);
+                    return { ...product, reviews, comments };
                 }));
             })
             .then(productsWithReviews => {
@@ -56,6 +55,7 @@ function Home() {
                             price={product.Cena}
                             image={product.ZdjecieProduktu}
                             rating={calculateAverageRating(product.reviews)}
+                            comment={product.comments}
                         />
                     ))}
                 </div>

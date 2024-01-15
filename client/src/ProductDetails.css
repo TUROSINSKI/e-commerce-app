@@ -1,0 +1,33 @@
+.productDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.productDetails__title {
+    width: 100%;
+}
+
+.productDetails__image {
+    max-width: 100%;
+    height: 500px;
+}
+
+.productDetails__price {
+    /* Additional styling for the price */
+}
+
+.productDetails__rating {
+    /* Additional styling for the rating */
+}
+
+.productDetails__comment {
+}
+
+.productDetails_UserOpinions {
+    width: 100%;
+    border-top: 1px solid lightgray;
+    margin-top: 20px;
+    padding: 10px;
+}
