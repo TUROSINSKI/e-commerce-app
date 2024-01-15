@@ -3,10 +3,15 @@ import '../styles/Subtotal.css';
 import CurrencyFormat from "react-currency-format";
 import { useStateValue } from "../StateProvider";
 import { getBasketTotal } from "../reducer";
+import { useNavigate } from 'react-router-dom';
 
 function Subtotal() {
 
     const [{ basket }, dispatch] = useStateValue();
+
+    const navigate = useNavigate();
+
+    const proceedOrder = () => {navigate('/order')};
 
     console.log("Subtotal:",
         getBasketTotal(basket));
@@ -27,7 +32,7 @@ function Subtotal() {
                 prefix={"zł"}
             />
 
-            <button>Proceed</button>
+            <button onClick={proceedOrder}>Proceed</button>
         </div>
     )
 }

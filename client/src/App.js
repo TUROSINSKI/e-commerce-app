@@ -7,6 +7,7 @@ import Checkout from "./components/Checkout";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import ProductDetails from "./components/ProductDetails";
+import Order from "./components/Order";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
       <div className="app">
         <Header />
         <Routes>
+          <Route path="/order" element={[<Order />]} />
           <Route path="/details/:id" element={[<ProductDetails />]} />
           <Route path="/signUp" element={[<SignUp />]} />
           <Route path="/signIn" element={[<SignIn />]} />
