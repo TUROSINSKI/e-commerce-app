@@ -8,6 +8,9 @@ function Subtotal() {
 
     const [{ basket }, dispatch] = useStateValue();
 
+    console.log("Subtotal:",
+        getBasketTotal(basket));
+
     return (
         <div className="subtotal">
             <CurrencyFormat renderText={(value) => (
