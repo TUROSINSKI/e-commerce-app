@@ -9,10 +9,15 @@
 }
 
 .header__logo {
-    width: 100px;
-    object-fit: contain;
-    margin: 0 20px;
-    margin-top: 18px;
+    display: flex;
+    color: white;
+    margin-right: 10px;
+    padding: 10px;
+}
+
+.header__imageLogo {
+    height: 30px;
+    margin-top: 8px;
 }
 
 .header__search {

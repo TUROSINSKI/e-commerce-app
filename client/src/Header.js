@@ -11,8 +11,10 @@ function Header() {
 
     return (
         <div className="header">
-            <Link to='/'>
-                <img className="header__logo" src="http://pngimg.com/uploads/amazon/amazon_PNG11.png" />
+            <Link to='/' className="header__logo" style={{textDecoration: 'none'}}>
+                {/* <img className="header__logo" src="http://pngimg.com/uploads/amazon/amazon_PNG11.png" /> */}
+                <h1>Amazbob</h1>
+                <img className='header__imageLogo' src="https://i.ibb.co/LzmbwKm/pngwing-com.png"/>
             </Link>
 
             <div className="header__search">

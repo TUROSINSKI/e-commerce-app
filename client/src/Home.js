@@ -9,7 +9,7 @@ function Home() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/getProducts") // Replace with your Node.js backend API endpoint
+        fetch("http://localhost:5000/api/getProducts")
             .then(response => {
                 if (!response.ok) {
                     throw new Error('ayaya no fetchin');
@@ -17,7 +17,16 @@ function Home() {
                 return response.json();
             })
             .then(data => {
-                setProducts(data);
+                return Promise.all(data.map(product => {
+                    return fetch(`http://localhost:5000/api/getReviewsForProduct/${product.ProduktID}`)
+                        .then(res => res.json())
+                        .then(reviews => {
+                            return { ...product, reviews };
+                        });
+                }));
+            })
+            .then(productsWithReviews => {
+                setProducts(productsWithReviews);
                 setIsLoading(false);
             })
             .catch(err => {
@@ -46,7 +55,7 @@ function Home() {
                             title={product.NazwaProduktu}
                             price={product.Cena}
                             image={product.ZdjecieProduktu}
-                            rating={5}
+                            rating={calculateAverageRating(product.reviews)}
                         />
                     ))}
                 </div>
@@ -56,3 +65,11 @@ function Home() {
 }
 
 export default Home
+
+function calculateAverageRating(reviews) {
+    if (!reviews || reviews.length === 0) {
+        return 0; 
+    }
+    const total = reviews.reduce((acc, review) => acc + review.Ocena, 0);
+    return total / reviews.length;
+}
