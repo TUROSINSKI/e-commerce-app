@@ -1,8 +1,8 @@
 import React from "react";
-import './CheckoutProduct.css'
+import '../styles/CheckoutProduct.css'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { useStateValue } from "./StateProvider";
+import { useStateValue } from "../StateProvider";
 
 function CheckoutProduct({ id, image, title, price, rating }) {
 

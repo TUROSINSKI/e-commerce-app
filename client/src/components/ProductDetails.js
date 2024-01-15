@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from 'react-router-dom';
-import './ProductDetails.css'
+import '../styles/ProductDetails.css'
 
 function ProductDetails() {
 

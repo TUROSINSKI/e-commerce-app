@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import './Home.css'
+import '../styles/Home.css'
 import Product from "./Product";
 
 function Home() {
