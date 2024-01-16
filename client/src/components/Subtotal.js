@@ -2,7 +2,7 @@ import React from "react";
 import '../styles/Subtotal.css';
 import CurrencyFormat from "react-currency-format";
 import { useStateValue } from "../StateProvider";
-import { getBasketTotal } from "../reducer";
+import { getBasketTotal, isBasketEmpty } from "../reducer";
 import { useNavigate } from 'react-router-dom';
 
 function Subtotal() {
@@ -11,7 +11,15 @@ function Subtotal() {
 
     const navigate = useNavigate();
 
-    const proceedOrder = () => {navigate('/order')};
+    const proceedOrder = () => {
+        if (!isBasketEmpty(basket)) {
+            navigate('/order');
+        } else {
+            // Optionally, handle the case where the basket is empty
+            // For example, display a message to the user
+            alert("Your basket is empty. Add some items before proceeding.");
+        }
+    };
 
     console.log("Subtotal:",
         getBasketTotal(basket));

@@ -31,7 +31,7 @@ function SignIn() {
     
         } catch (error) {
             console.error("Error during authentication", error);
-
+            alert("Please check again your credentials");
         }
     };
 

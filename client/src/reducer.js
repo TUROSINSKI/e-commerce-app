@@ -4,6 +4,10 @@ export const initialState = {
 
 export const getBasketTotal = (basket) => basket?.reduce((amount, item) => parseFloat(item.price) + amount, 0);
 
+export const isBasketEmpty = (basket) => {
+    return basket.length === 0;
+};
+
 const reducer = (state, action) => {
     console.log(action);
     switch (action.type) {
