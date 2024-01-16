@@ -1,12 +1,14 @@
 import mysql from 'mysql2'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken';
 
 const pool = mysql.createPool({
     host: '127.0.0.1',
     user: 'root',
-    password: 'admin',
+    password: '1234',
     database: 'ecommerceapp'
 }).promise()
+
 
 
 // export async function getItem(id){
@@ -51,8 +53,26 @@ export async function loginUser(Email, Haslo) {
         if (!isPasswordValid) {
             throw new Error('Invalid email or password');
         }
-        return user;
+        const token = jwt.sign({ userId: user[0].UzytkownikID }, 'GigaTajniak', { expiresIn: '1h' });
+
+        return { user, token };
   }
+
+  export function verifyToken(req, res, next) {
+    // const token = req.cookies.token;
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+        return res.status(403).send({ error: 'Brak autoryzacji' });
+    }
+    
+    jwt.verify(token, 'GigaTajniak', (err, decoded) => {
+        if (err) {
+            return res.status(401).send({ error: 'Nieprawidłowy token' });
+        }
+        req.userId = decoded.userId;
+        next();
+    });
+}
 
 
 export async function addProduct(NazwaProduktu, OpisProduktu, Cena, Dostepnosc, KategoriaID, ZdjecieProduktu) {
@@ -128,6 +148,17 @@ export async function getProductsByCategory(filterCategory, sortField, sortOrder
       throw error;
     }
   }
+
+  export async function createOrder(UzytkownikID, CenaKoncowa) {
+    const query = `
+        INSERT INTO Zamowienia (UzytkownikID, CenaKoncowa, Status)
+        VALUES (?, ?, 'W trakcie realizacji')
+    `;
+    console.log(UzytkownikID);
+    const values = [UzytkownikID, CenaKoncowa];
+
+    return await pool.query(query, values);
+}
 
 
 

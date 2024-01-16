@@ -30,7 +30,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import {addProduct, editProduct, deleteProduct, getProducts, getProduct,getProductsByCategory, registerUser, loginUser, addToCart, removeFromCart, addReview,getReviewsForProduct} from './database.js';
+import {addProduct, editProduct, deleteProduct, getProducts, getProduct,getProductsByCategory, registerUser, loginUser, addToCart, removeFromCart, addReview,getReviewsForProduct, verifyToken, createOrder} from './database.js';
 const app = express()
 app.use(cors());
 app.use(express.json())
@@ -68,8 +68,19 @@ app.post("/api/registerUser", async (req, res) => {
 app.post("/api/loginUser", async (req, res) => {
   const { Email, Haslo } = req.body;
   try {
-    const result = await loginUser(Email, Haslo);
-    res.send(result);
+    const { user, token }= await loginUser(Email, Haslo);
+    // res.cookie('token', token, { httpOnly: true });
+    res.send({ user, token });
+    // res.send(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Nie ma takiego użytkownika" });
+  }
+});
+
+app.get("/api/loggedUser",verifyToken, async (req, res) => {
+  try {
+    res.send("poszlo");
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: "Nie ma takiego użytkownika" });
@@ -122,7 +133,7 @@ app.post("/api/addProduct", async (req, res) => {
     console.error(error);
     res.status(500).send({ error: "Internal Server Error" });
   }
-});
+}); 
 
 app.put("/api/editProduct/:id", async (req, res) => {
   const id = req.params.id;
@@ -194,6 +205,19 @@ app.get("/api/getReviewsForProduct/:id", async (req, res) => {
   }
 });
 
+app.post('/api/createOrder', verifyToken, async (req, res) => {
+  const userId = req.userId;
+  const { CenaKoncowa } = req.body;
+  try {
+      console.log(userId, CenaKoncowa);
+      const result = await createOrder(userId, CenaKoncowa);
+      res.send(result);
+  } catch (error) {
+      console.error(error);
+      res.status(500).send({ error: 'Wystąpił błąd podczas tworzenia zamówienia' });
+  }
+});
+
 
 // app.post("/api/addToCart/:id", async (req, res) => {
 //   const id = req.params.id;
@@ -219,6 +243,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(5000, () => console.log('Listening on port 5000'));
+app.listen(3000, () => console.log('Listening on port 3000'));
 
 // module.exports = app;
