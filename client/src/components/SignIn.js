@@ -24,6 +24,7 @@ function SignIn() {
     
             const result = await response.json();
             localStorage.setItem('token', result.token);
+            localStorage.setItem('user', JSON.stringify(result.user))
 
             console.log(result);
             navigate('/');
