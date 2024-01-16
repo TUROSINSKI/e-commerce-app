@@ -23,6 +23,7 @@ function SignIn() {
             }
     
             const result = await response.json();
+            localStorage.setItem('token', result.token);
 
             console.log(result);
             navigate('/');
