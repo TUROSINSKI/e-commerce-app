@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
 import '../styles/ProductDetails.css'
 import { useAuth } from "../AuthContext";
@@ -13,6 +13,7 @@ function ProductDetails() {
     const [komentarz, setKomentarz] = useState('');
     const [showPopup, setShowPopup] = useState(false);
     const [showEditPopup, setShowEditPopup] = useState(false);
+    const [reviewUserDetails, setReviewUserDetails] = useState({});
 
     const [categories, setCategories] = useState([
         { KategoriaID: 1, NazwaKategorii: 'Elektronika' },
@@ -20,6 +21,29 @@ function ProductDetails() {
         { KategoriaID: 3, NazwaKategorii: 'Odzież' },
         { KategoriaID: 4, NazwaKategorii: 'Dom i Ogród' },
     ]);
+
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+            const userDetails = {};
+            for (const review of productDetails.reviews) {
+                try {
+                    const response = await fetch(`http://localhost:5000/api/findUser/${review.UzytkownikID}`);
+                    if (!response.ok) {
+                        throw new Error('User fetch failed');
+                    }
+                    const userData = await response.json();
+                    userDetails[review.UzytkownikID] = userData;
+                } catch (error) {
+                    console.error('Error fetching user details:', error);
+                }
+            }
+            setReviewUserDetails(userDetails);
+        };
+
+        if (productDetails.reviews && productDetails.reviews.length > 0) {
+            fetchUserDetails();
+        }
+    }, [productDetails.reviews]);
 
     if (!productDetails) {
         return <div>Loading...</div>;
@@ -92,8 +116,6 @@ function ProductDetails() {
             <p className="productDetails__price">Price: zł{price}</p>
             <img className="productDetails__image" src={image} alt={title} />
             <p>{description}</p>
-            <p>{availability}</p>
-            <p>{categoryId}</p>
             <div>
                 <button onClick={() => setShowEditPopup(true)}>Edit Product</button>
                 {showEditPopup && (
@@ -122,7 +144,7 @@ function ProductDetails() {
             <div className="productDetails_UserOpinions">
                 {reviews && reviews.map((review, index) => (
                     <div key={index} className="productDetails__review">
-                        <h1>{review.UzytkownikID}</h1>
+                        <strong>{reviewUserDetails[review.UzytkownikID] ? `${reviewUserDetails[review.UzytkownikID].Imie} ${reviewUserDetails[review.UzytkownikID].Nazwisko}` : 'Loading...'}</strong>
                         <div className="productDetails__rating">
                             {Array(review.Ocena).fill().map((_, i) => (
                                 <span key={i}>⭐</span>
