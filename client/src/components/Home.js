@@ -3,6 +3,7 @@ import '../styles/Home.css'
 import Product from "./Product";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ProductPopup from "./ProductPopup";
+import { useLocation } from "react-router-dom";
 
 function Home() {
 
@@ -12,6 +13,9 @@ function Home() {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [categories, setCategories] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const searchQuery = searchParams.get('search');
 
     useEffect(() => {
         setCategories([
@@ -36,6 +40,11 @@ function Home() {
                 return response.json();
             })
             .then(data => {
+                if (searchQuery) {
+                    data = data.filter(product => 
+                        product.NazwaProduktu.toLowerCase().includes(searchQuery.toLowerCase())
+                    );
+                }
                 return Promise.all(data.map(async product => {
                     const res = await fetch(`http://localhost:5000/api/getReviewsForProduct/${product.ProduktID}`);
                     const reviews = await res.json();
@@ -52,7 +61,7 @@ function Home() {
                 setError(err.message);
                 setIsLoading(false);
             });
-    }, [selectedCategory]);
+    }, [selectedCategory, searchQuery]);
 
     console.log(products);
 

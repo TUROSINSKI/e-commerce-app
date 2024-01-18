@@ -5,15 +5,24 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
 import { useAuth } from "../AuthContext";
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
 
     const [{ basket }, dispatch] = useStateValue();
     // const [imie, setImie] = useState('');
     const { isLoggedIn, userData, logout } = useAuth();
+    const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate();
 
     const id = userData ? userData[0].UzytkownikID : 0;
     const imie = userData ? userData[0].Imie : '';
+
+    const handleSearch = () => {
+        if (searchTerm) {
+            navigate(`/?search=${searchTerm}`);
+        }
+    };
 
     // useEffect(() => {
     //     const userString = localStorage.getItem('user');
@@ -31,8 +40,8 @@ function Header() {
             </Link>
 
             <div className="header__search">
-                <input className="header__searchInput" type="text" />
-                <SearchIcon className="header__searchIcon" />
+                <input className="header__searchInput" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+                <SearchIcon className="header__searchIcon" onClick={handleSearch}/>
             </div>
 
             <div className="header__nav">
