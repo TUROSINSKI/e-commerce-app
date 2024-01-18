@@ -1,12 +1,14 @@
 import React, {useState} from "react";
 import { useNavigate } from 'react-router-dom';
 import '../styles/SignIn.css'
+import { useAuth } from "../AuthContext";
 
 function SignIn() {
 
     const [email, setEmail] = useState('');
     const [haslo, setHaslo] = useState('');
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -24,7 +26,7 @@ function SignIn() {
     
             const result = await response.json();
             localStorage.setItem('token', result.token);
-            localStorage.setItem('user', JSON.stringify(result.user))
+            login(result.user); 
 
             console.log(result);
             navigate('/');

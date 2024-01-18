@@ -15,8 +15,6 @@ function Subtotal() {
         if (!isBasketEmpty(basket)) {
             navigate('/order');
         } else {
-            // Optionally, handle the case where the basket is empty
-            // For example, display a message to the user
             alert("Your basket is empty. Add some items before proceeding.");
         }
     };

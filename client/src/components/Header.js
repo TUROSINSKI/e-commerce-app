@@ -4,41 +4,27 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
+import { useAuth } from "../AuthContext";
 
 function Header() {
 
     const [{ basket }, dispatch] = useStateValue();
-    const [imie, setImie] = useState('');
+    // const [imie, setImie] = useState('');
+    const { isLoggedIn, userData, logout } = useAuth();
 
-    useEffect(() => {
-        const userString = localStorage.getItem('user');
-        if (userString) {
-            const user = JSON.parse(userString);
-            setImie(user[0].Imie); // Update 'imie' state
-        }
-    }, []);
+    const imie = userData ? userData[0].Imie : '';
 
-    // const userString = localStorage.getItem('user');
-    // let user = null;
-    // let imie = '';
-    // console.log(userString);
-
-    // if (userString) {
-    //     user = JSON.parse(userString);
-    //     console.log(user);
-    //     imie = user[0].Imie;
-    // }
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        setImie(null);
-    }
+    // useEffect(() => {
+    //     const userString = localStorage.getItem('user');
+    //     if (userString) {
+    //         const user = JSON.parse(userString);
+    //         setImie(user[0].Imie); // Update 'imie' state
+    //     }
+    // }, []);
 
     return (
         <div className="header">
             <Link to='/' className="header__logo" style={{ textDecoration: 'none' }}>
-                {/* <img className="header__logo" src="http://pngimg.com/uploads/amazon/amazon_PNG11.png" /> */}
                 <h1>Amazbob</h1>
                 <img className='header__imageLogo' src="https://i.ibb.co/LzmbwKm/pngwing-com.png" />
             </Link>
@@ -50,7 +36,7 @@ function Header() {
 
             <div className="header__nav">
 
-                {imie ? (
+                {isLoggedIn ? (
                     <div className="header__option">
                         <span className="header__optionLineOne">Hello</span>
                         <span className="header__optionLineTwo">{imie + '!' ?? 'User'}</span>
@@ -64,8 +50,8 @@ function Header() {
                     </Link>
                 )}
 
-                {imie ? (
-                    <div className="header__option" onClick={handleLogout}>
+                {isLoggedIn ? (
+                    <div className="header__option" onClick={logout}>
                         <span className="header__optionLineOne">Bye</span>
                         <span className="header__optionLineTwo">Log out</span>
                     </div>

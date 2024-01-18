@@ -5,14 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { StateProvider } from './StateProvider';
 import reducer, { initialState } from './reducer';
+import { AuthProvider } from './AuthContext';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <AuthProvider>
     <StateProvider initialState={initialState} reducer={reducer}>
       <App />
     </StateProvider>
+    </AuthProvider>
   </React.StrictMode>
 );
 
