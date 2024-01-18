@@ -35,6 +35,8 @@ function Home() {
             });
     }, []);
 
+    console.log(products);
+
     if (isLoading) {
         return <p>Loading...</p>;
     }
@@ -46,10 +48,13 @@ function Home() {
     return (
         <div className="home">
             <div className="home__container">
-                <img className="home__image" src="https://img.freepik.com/free-photo/side-view-woman-holding-smartphone-shopping-bags-cyber-monday_23-2148657647.jpg?w=1380&t=st=1705107150~exp=1705107750~hmac=affaa64e8f7b9943e4db25a8f8d59d6c3ac6813bf6e3615b3a18ac674d107cc6" />
+                <img src="https://img.freepik.com/free-photo/side-view-woman-holding-smartphone-shopping-bags-cyber-monday_23-2148657647.jpg?w=1380&t=st=1705107150~exp=1705107750~hmac=affaa64e8f7b9943e4db25a8f8d59d6c3ac6813bf6e3615b3a18ac674d107cc6" />
                 <div className="home__toolbar">
                     <div>
-                        Filter by category:
+                        Filter:
+                        <select>
+                        
+                    </select>
                     </div>
                     <div style={{ fontSize: '30px' }}>
                         Products

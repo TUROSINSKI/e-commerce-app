@@ -7,8 +7,16 @@
     flex-wrap: wrap; /* Add this to allow wrapping of items */
 }
 
+.home__container > img {
+    width: 100%;
+    z-index: -1;
+    /* margin-bottom: -150px; */
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}
+
 .home__toolbar {
     height: 60px;
+    z-index: 1;
     color: white;
     display: flex;
     justify-content: space-between;
@@ -34,12 +42,6 @@
     margin: 10px; /* Add some margin around each product */
 }
 
-.home__image {
-    width: 100%;
-    z-index: -1;
-    margin-bottom: -150px;
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-}
 
 /* For tablets and smaller devices */
 @media (max-width: 768px) {
