@@ -73,7 +73,10 @@ export async function loginUser(Email, Haslo) {
         next();
     });
 }
-
+export async function findUser(id) {
+    const [rows] = await pool.query(`SELECT * FROM Uzytkownicy WHERE UzytkownikID = ?`, [id]);
+    return rows[0];
+}
 
 export async function addProduct(NazwaProduktu, OpisProduktu, Cena, Dostepnosc, KategoriaID, ZdjecieProduktu) {
     const [result] = await pool.query(`
@@ -126,6 +129,12 @@ export async function getProductsByCategory(filterCategory, sortField, sortOrder
       console.error(error.message);
       throw error;
     }
+  }
+
+  export async function getCategoryById(KategoriaID) {
+    const [rows] = await pool.query(`
+        SELECT NazwaKategorii FROM Kategorie WHERE KategoriaID = ?`, [KategoriaID]);
+        return rows[0];
   }
 
 //TRZEBA BARDZIEJ POMYSLEC BO NIE DZIALA TAK JAK CHCE (PRZECIEZ UZYTKOWNIK MOZE MIEC WIELE PRODUKTOW W KOSZYKU)
