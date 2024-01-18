@@ -14,6 +14,7 @@ function ProductDetails() {
     const [showPopup, setShowPopup] = useState(false);
     const [showEditPopup, setShowEditPopup] = useState(false);
     const [reviewUserDetails, setReviewUserDetails] = useState({});
+    const navigate = useNavigate();
 
     const [categories, setCategories] = useState([
         { KategoriaID: 1, NazwaKategorii: 'Elektronika' },
@@ -50,6 +51,24 @@ function ProductDetails() {
         return <div>Loading...</div>;
     }
 
+    const handleDeleteProduct = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/deleteProduct/${productDetails.id}`, {
+                method: 'DELETE'
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete product');
+            }
+
+            console.log('Product deleted successfully');
+            navigate('/'); // Navigate to home after deletion
+        } catch (error) {
+            console.error('Error during deleting product:', error);
+            alert('Error while deleting the product');
+        }
+    };
+
     const handleEditProduct = async (editedProduct) => {
         try {
             const response = await fetch(`http://localhost:5000/api/editProduct/${productDetails.id}`, {
@@ -59,22 +78,22 @@ function ProductDetails() {
                 },
                 body: JSON.stringify(editedProduct)
             });
-    
+
             if (!response.ok) {
                 throw new Error('Product could not be edited');
             }
-    
+
             const result = await response.json();
             console.log('Product edited successfully:', result);
             setShowEditPopup(false);
             // Update your product details state or re-fetch product details
-    
+
         } catch (error) {
             console.error('Error during editing product:', error);
             alert('Error while editing the product');
         }
     };
-    
+
 
     const handleAddReview = async () => {
         if (!userData) {
@@ -118,18 +137,21 @@ function ProductDetails() {
             <img className="productDetails__image" src={image} alt={title} />
             <p>{description}</p>
             <div>
-            {userData && userData[0].rola === 'admin' && (
-                <button onClick={() => setShowEditPopup(true)}>Edit Product</button>
-            )}
-            {showEditPopup && (
-                <ProductPopup
-                    initialData={productDetails}
-                    onSave={handleEditProduct}
-                    onClose={() => setShowEditPopup(false)}
-                    isEditing={true}
-                    categories={categories}
-                />
-            )}
+                {userData && userData[0].rola === 'admin' && (
+                    <>
+                        <button onClick={() => setShowEditPopup(true)}>Edit Product</button>
+                        <button onClick={handleDeleteProduct}>Delete Product</button>
+                    </>
+                )}
+                {showEditPopup && (
+                    <ProductPopup
+                        initialData={productDetails}
+                        onSave={handleEditProduct}
+                        onClose={() => setShowEditPopup(false)}
+                        isEditing={true}
+                        categories={categories}
+                    />
+                )}
 
 
                 <button onClick={() => setShowPopup(true)}>Add Review</button>
