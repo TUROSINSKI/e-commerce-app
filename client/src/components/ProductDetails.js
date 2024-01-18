@@ -52,7 +52,7 @@ function ProductDetails() {
     };
 
     // Destructure the properties from productDetails
-    const { id, title, image, price, rating, comment } = productDetails;
+    const { id, title, image, price, rating, reviews } = productDetails;
 
     return (
         <div className="productDetails">
@@ -66,7 +66,7 @@ function ProductDetails() {
                 <div className="popup">
                     <div className="popup-content">
                         <h3>Add a Review</h3>
-                        <input type="number" value={ocena} onChange={(e) => setOcena(e.target.value)} placeholder="Rating" />
+                        <input type="number" min={1} max={5} value={ocena} onChange={(e) => setOcena(e.target.value)} placeholder="Rating" />
                         <textarea value={komentarz} onChange={(e) => setKomentarz(e.target.value)} placeholder="Comment"></textarea>
                         <button onClick={handleAddReview}>Submit Review</button>
                         <button onClick={() => setShowPopup(false)}>Close</button>
@@ -74,13 +74,18 @@ function ProductDetails() {
                 </div>
             )}
         </div>
-            <div className="productDetails_UserOpinions">
-                <div className="productDetails__rating">
-                    {Array(rating).fill().map((_, i) => (
-                        <span key={i}>⭐</span>
-                    ))}
-                </div>
-                <p className="productDetails__comment">{comment}</p>
+        <div className="productDetails_UserOpinions">
+                {reviews && reviews.map((review, index) => (
+                    <div key={index} className="productDetails__review">
+                        <h1>{review.UzytkownikID}</h1>
+                        <div className="productDetails__rating">
+                            {Array(review.Ocena).fill().map((_, i) => (
+                                <span key={i}>⭐</span>
+                            ))}
+                        </div>
+                        <p><strong>Review:</strong> {review.Komentarz}</p>
+                    </div>
+                ))}
             </div>
         </div>
     )

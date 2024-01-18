@@ -3,7 +3,7 @@ import '../styles/Product.css'
 import { useStateValue } from "../StateProvider";
 import { useNavigate } from 'react-router-dom';
 
-function Product({ id, title, image, price, rating, comment }) {
+function Product({ id, title, image, price, rating, reviews }) {
 
     const [ {basket}, dispatch] = useStateValue();
 
@@ -22,7 +22,7 @@ function Product({ id, title, image, price, rating, comment }) {
         })
     }
 
-    const openDetails = () => {navigate('/details/'+id, {state: {id, title, image, price, rating, comment}})};
+    const openDetails = () => {navigate('/details/'+id, {state: {id, title, image, price, rating, reviews}})};
 
     return (
         <div className="product">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import '../styles/Home.css'
 import Product from "./Product";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 function Home() {
 
@@ -46,6 +47,17 @@ function Home() {
         <div className="home">
             <div className="home__container">
                 <img className="home__image" src="https://img.freepik.com/free-photo/side-view-woman-holding-smartphone-shopping-bags-cyber-monday_23-2148657647.jpg?w=1380&t=st=1705107150~exp=1705107750~hmac=affaa64e8f7b9943e4db25a8f8d59d6c3ac6813bf6e3615b3a18ac674d107cc6" />
+                <div className="home__toolbar">
+                    <div>
+                        Filter by category:
+                    </div>
+                    <div style={{ fontSize: '30px' }}>
+                        Products
+                    </div>
+                    <div>
+                        <AddCircleIcon style={{ fontSize: '40px' }} />
+                    </div>
+                </div>
                 <div className="home__row">
                     {products.map(product => (
                         <Product
@@ -55,7 +67,7 @@ function Home() {
                             price={product.Cena}
                             image={product.ZdjecieProduktu}
                             rating={calculateAverageRating(product.reviews)}
-                            comment={product.comments}
+                            reviews={product.reviews}
                         />
                     ))}
                 </div>
@@ -68,7 +80,7 @@ export default Home
 
 function calculateAverageRating(reviews) {
     if (!reviews || reviews.length === 0) {
-        return 0; 
+        return 0;
     }
     const total = reviews.reduce((acc, review) => acc + review.Ocena, 0);
     return total / reviews.length;

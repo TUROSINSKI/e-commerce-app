@@ -14,15 +14,16 @@
     height: 500px;
 }
 
-.productDetails__price {
-    /* Additional styling for the price */
+.productDetails__review {
+    border-top: 1px solid #ccc; /* Adjust color and size as needed */
+    padding-top: 10px; /* Optional: Add some space between the border and the content */
+    margin-top: 10px; /* Optional: Add some space above the border */
 }
 
-.productDetails__rating {
-    /* Additional styling for the rating */
-}
-
-.productDetails__comment {
+.productDetails__review:first-child {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
 }
 
 .productDetails_UserOpinions {

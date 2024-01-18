@@ -11,10 +11,6 @@ import Order from "./components/Order";
 
 function App() {
 
-  // useEffect (() => {
-
-  // }, [])
-
   return (
     <Router>
       <div className="app">

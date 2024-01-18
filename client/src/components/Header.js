@@ -12,6 +12,7 @@ function Header() {
     // const [imie, setImie] = useState('');
     const { isLoggedIn, userData, logout } = useAuth();
 
+    const id = userData ? userData[0].UzytkownikID : 0;
     const imie = userData ? userData[0].Imie : '';
 
     // useEffect(() => {
