@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation } from 'react-router-dom';
 import '../styles/ProductDetails.css'
 import { useAuth } from "../AuthContext";
+import ProductPopup from "./ProductPopup";
 
 function ProductDetails() {
 
@@ -11,10 +12,44 @@ function ProductDetails() {
     const [ocena, setOcena] = useState(0);
     const [komentarz, setKomentarz] = useState('');
     const [showPopup, setShowPopup] = useState(false);
+    const [showEditPopup, setShowEditPopup] = useState(false);
+
+    const [categories, setCategories] = useState([
+        { KategoriaID: 1, NazwaKategorii: 'Elektronika' },
+        { KategoriaID: 2, NazwaKategorii: 'Książki' },
+        { KategoriaID: 3, NazwaKategorii: 'Odzież' },
+        { KategoriaID: 4, NazwaKategorii: 'Dom i Ogród' },
+    ]);
 
     if (!productDetails) {
         return <div>Loading...</div>;
     }
+
+    const handleEditProduct = async (editedProduct) => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/editProduct/${productDetails.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(editedProduct)
+            });
+    
+            if (!response.ok) {
+                throw new Error('Product could not be edited');
+            }
+    
+            const result = await response.json();
+            console.log('Product edited successfully:', result);
+            setShowEditPopup(false);
+            // Update your product details state or re-fetch product details
+    
+        } catch (error) {
+            console.error('Error during editing product:', error);
+            alert('Error while editing the product');
+        }
+    };
+    
 
     const handleAddReview = async () => {
         if (!userData) {
@@ -23,9 +58,6 @@ function ProductDetails() {
         }
 
         const uzytkownikID = userData[0].UzytkownikID; // Assuming this is how you store user ID
-        console.log(uzytkownikID);
-        console.log(ocena);
-        console.log(komentarz);
 
         try {
             const response = await fetch('http://localhost:5000/api/addReview', {
@@ -52,29 +84,42 @@ function ProductDetails() {
     };
 
     // Destructure the properties from productDetails
-    const { id, title, image, price, rating, reviews } = productDetails;
+    const { id, title, description, image, price, reviews, availability, categoryId } = productDetails;
 
     return (
         <div className="productDetails">
             <h2 className="productDetails__title">{title}</h2>
             <p className="productDetails__price">Price: zł{price}</p>
             <img className="productDetails__image" src={image} alt={title} />
+            <p>{description}</p>
+            <p>{availability}</p>
+            <p>{categoryId}</p>
             <div>
-            <button onClick={() => setShowPopup(true)}>Add Review</button>
+                <button onClick={() => setShowEditPopup(true)}>Edit Product</button>
+                {showEditPopup && (
+                    <ProductPopup
+                        initialData={productDetails}
+                        onSave={handleEditProduct}
+                        onClose={() => setShowEditPopup(false)}
+                        isEditing={true}
+                        categories={categories}
+                    />
+                )}
 
-            {showPopup && (
-                <div className="popup">
-                    <div className="popup-content">
-                        <h3>Add a Review</h3>
-                        <input type="number" min={1} max={5} value={ocena} onChange={(e) => setOcena(e.target.value)} placeholder="Rating" />
-                        <textarea value={komentarz} onChange={(e) => setKomentarz(e.target.value)} placeholder="Comment"></textarea>
-                        <button onClick={handleAddReview}>Submit Review</button>
-                        <button onClick={() => setShowPopup(false)}>Close</button>
+                <button onClick={() => setShowPopup(true)}>Add Review</button>
+                {showPopup && (
+                    <div className="popup">
+                        <div className="popup-content">
+                            <h3>Add a Review</h3>
+                            <input type="number" min={1} max={5} value={ocena} onChange={(e) => setOcena(e.target.value)} placeholder="Rating" />
+                            <textarea value={komentarz} onChange={(e) => setKomentarz(e.target.value)} placeholder="Comment"></textarea>
+                            <button onClick={handleAddReview}>Submit Review</button>
+                            <button onClick={() => setShowPopup(false)}>Close</button>
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
-        <div className="productDetails_UserOpinions">
+                )}
+            </div>
+            <div className="productDetails_UserOpinions">
                 {reviews && reviews.map((review, index) => (
                     <div key={index} className="productDetails__review">
                         <h1>{review.UzytkownikID}</h1>

@@ -114,10 +114,13 @@ function Home() {
                             key={product.ProduktID}
                             id={product.ProduktID}
                             title={product.NazwaProduktu}
+                            description={product.OpisProduktu}
                             price={product.Cena}
                             image={product.ZdjecieProduktu}
                             rating={calculateAverageRating(product.reviews)}
                             reviews={product.reviews}
+                            availability={product.Dostepnosc}
+                            categoryId={product.KategoriaID}
                         />
                     ))}
                 </div>
