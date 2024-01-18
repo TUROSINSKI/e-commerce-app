@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/ProductDetails.css'
 import { useAuth } from "../AuthContext";
 import ProductPopup from "./ProductPopup";
@@ -118,16 +118,19 @@ function ProductDetails() {
             <img className="productDetails__image" src={image} alt={title} />
             <p>{description}</p>
             <div>
+            {userData && userData[0].rola === 'admin' && (
                 <button onClick={() => setShowEditPopup(true)}>Edit Product</button>
-                {showEditPopup && (
-                    <ProductPopup
-                        initialData={productDetails}
-                        onSave={handleEditProduct}
-                        onClose={() => setShowEditPopup(false)}
-                        isEditing={true}
-                        categories={categories}
-                    />
-                )}
+            )}
+            {showEditPopup && (
+                <ProductPopup
+                    initialData={productDetails}
+                    onSave={handleEditProduct}
+                    onClose={() => setShowEditPopup(false)}
+                    isEditing={true}
+                    categories={categories}
+                />
+            )}
+
 
                 <button onClick={() => setShowPopup(true)}>Add Review</button>
                 {showPopup && (
