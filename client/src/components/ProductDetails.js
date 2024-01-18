@@ -37,6 +37,7 @@ function ProductDetails() {
                     console.error('Error fetching user details:', error);
                 }
             }
+            console.log('User details after fetch:', userDetails);
             setReviewUserDetails(userDetails);
         };
 

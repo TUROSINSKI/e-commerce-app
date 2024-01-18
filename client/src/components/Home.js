@@ -44,6 +44,7 @@ function Home() {
                 }));
             })
             .then(productsWithReviews => {
+                console.log('Products with reviews:', productsWithReviews);
                 setProducts(productsWithReviews);
                 setIsLoading(false);
             })
@@ -78,7 +79,8 @@ function Home() {
             }
     
             const addedProduct = await response.json();
-            // Update state or perform any actions needed after product addition
+            
+            setProducts(currentProducts => [...currentProducts, addedProduct]);
             setShowPopup(false);
         } catch (error) {
             console.error('Error:', error);
@@ -105,7 +107,7 @@ function Home() {
                     </div> */}
                     <div>
                         <AddCircleIcon style={{ fontSize: '40px' }} onClick={() => setShowPopup(true)} />
-                        {showPopup && <ProductPopup onSave={addProductHandler} onClose={() => setShowPopup(false)} />}
+                        {showPopup && <ProductPopup onSave={addProductHandler} onClose={() => setShowPopup(false)} categories={categories} />}
                     </div>
                 </div>
                 <div className="home__row">
@@ -118,6 +120,7 @@ function Home() {
                             price={product.Cena}
                             image={product.ZdjecieProduktu}
                             rating={calculateAverageRating(product.reviews)}
+                            // rating={4}
                             reviews={product.reviews}
                             availability={product.Dostepnosc}
                             categoryId={product.KategoriaID}
@@ -133,8 +136,9 @@ export default Home
 
 function calculateAverageRating(reviews) {
     if (!reviews || reviews.length === 0) {
-        return 0;
+        return 0; // Return 0 if there are no reviews
     }
     const total = reviews.reduce((acc, review) => acc + review.Ocena, 0);
-    return total / reviews.length;
+    const average = total / reviews.length;
+    return Math.max(1, Math.min(Math.round(average), 5)); // Ensures the result is between 1 and 5
 }
