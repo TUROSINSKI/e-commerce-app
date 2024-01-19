@@ -168,12 +168,25 @@ function ProductDetails() {
                 <button className="productDetails__addButton" onClick={() => setShowPopup(true)}>Add Review</button>
                 {showPopup && (
                     <div className="popup">
-                        <div className="popup-content">
-                            <h3>Add a Review</h3>
-                            <input type="number" min={1} max={5} value={ocena} onChange={(e) => setOcena(e.target.value)} placeholder="Rating" />
-                            <textarea value={komentarz} onChange={(e) => setKomentarz(e.target.value)} placeholder="Comment"></textarea>
-                            <button onClick={handleAddReview}>Submit Review</button>
-                            <button onClick={() => setShowPopup(false)}>Close</button>
+                        <div className="popup__content">
+                            <h2>Add a Review</h2>
+                            <p><strong>Star rating</strong></p>
+                            <select value={ocena} onChange={(e) => setOcena(e.target.value)} placeholder="Rating">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+
+                            <textarea
+                                value={komentarz}
+                                onChange={(e) => setKomentarz(e.target.value)}
+                                placeholder="Comment"
+                                className="comment-textarea"
+                            ></textarea>
+                            <button className="popup__buttonSubmit" onClick={handleAddReview}>Submit Review</button>
+                            <button className="popup__buttonClose" onClick={() => setShowPopup(false)}>Close</button>
                         </div>
                     </div>
                 )}
