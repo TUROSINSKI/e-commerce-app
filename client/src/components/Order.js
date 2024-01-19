@@ -3,18 +3,20 @@ import '../styles/Order.css'
 import { useStateValue } from "../StateProvider";
 import { getBasketTotal } from "../reducer";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../AuthContext";
 
 function Order() {
 
     const token = localStorage.getItem('token');
     const [{ basket }, dispatch] = useStateValue();
+    const { isLoggedIn, userData, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const CenaKoncowa = getBasketTotal(basket);
 
-        if (!token) {
+        if (!isLoggedIn) {
             alert("No token found");
             return;
         }
