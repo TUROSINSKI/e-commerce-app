@@ -50,7 +50,7 @@ function ProductPopup({ onClose, onSave, initialData = {}, isEditing = false, ca
                         ))}
                     </select>
                     <input name="ZdjecieProduktu" value={product.ZdjecieProduktu} onChange={handleChange} placeholder="Zdjecie" />
-                    <button type="submit">Save Product</button>
+                    <button className="productPopup__saveButton" type="submit">Save Product</button>
                     <button onClick={onClose}>Close</button>
                 </form>
             </div>

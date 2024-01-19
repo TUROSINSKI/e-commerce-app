@@ -1,16 +1,3 @@
-.product-popup-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
 .product-popup-container {
     background-color: white;
     padding: 20px;
@@ -20,4 +7,25 @@
     width: 50%;
     max-width: 600px;
     margin: 0 auto;
+    display: flex; /* Add flex display */
+    flex-direction: column; /* Arrange children in a column */
+    align-items: stretch; /* Stretch children across the container width */
+}
+
+.product-popup-container form {
+    width: 100%;
+}
+
+.product-popup-container input,
+.product-popup-container select,
+.product-popup-container button {
+    width: 100%;
+    margin-bottom: 10px; 
+    height: 30px;
+    border-radius: 8px;
+    border: solid 1px lightgray;
+}
+
+.productPopup__saveButton {
+    background-color: #fccf9d;
 }
