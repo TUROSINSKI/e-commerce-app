@@ -8,7 +8,7 @@ function ProductDetails() {
 
     const location = useLocation();
     const productDetails = location.state;
-    const { userData } = useAuth(); // Assuming you're using AuthContext
+    const { userData } = useAuth();
     const [ocena, setOcena] = useState(0);
     const [komentarz, setKomentarz] = useState('');
     const [showPopup, setShowPopup] = useState(false);
@@ -62,7 +62,7 @@ function ProductDetails() {
             }
 
             console.log('Product deleted successfully');
-            navigate('/'); // Navigate to home after deletion
+            navigate('/');
         } catch (error) {
             console.error('Error during deleting product:', error);
             alert('Error while deleting the product');
@@ -86,7 +86,6 @@ function ProductDetails() {
             const result = await response.json();
             console.log('Product edited successfully:', result);
             setShowEditPopup(false);
-            // Update your product details state or re-fetch product details
 
         } catch (error) {
             console.error('Error during editing product:', error);
@@ -101,7 +100,7 @@ function ProductDetails() {
             return;
         }
 
-        const uzytkownikID = userData[0].UzytkownikID; // Assuming this is how you store user ID
+        const uzytkownikID = userData[0].UzytkownikID;
 
         try {
             const response = await fetch('http://localhost:5000/api/addReview', {
@@ -119,7 +118,6 @@ function ProductDetails() {
             const result = await response.json();
             console.log('Review added successfully:', result);
             setShowPopup(false);
-            // Handle successful addition of review (e.g., show a message to the user, clear the form, etc.)
 
         } catch (error) {
             console.error('Error during adding review:', error);
@@ -127,7 +125,6 @@ function ProductDetails() {
         }
     };
 
-    // Destructure the properties from productDetails
     const { id, title, description, image, price, reviews, availability, categoryId } = productDetails;
 
     return (

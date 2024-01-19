@@ -41,7 +41,7 @@ function Home() {
             })
             .then(data => {
                 if (searchQuery) {
-                    data = data.filter(product => 
+                    data = data.filter(product =>
                         product.NazwaProduktu.toLowerCase().includes(searchQuery.toLowerCase())
                     );
                 }
@@ -82,13 +82,13 @@ function Home() {
                 },
                 body: JSON.stringify(product)
             });
-    
+
             if (!response.ok) {
                 throw new Error('Product could not be added');
             }
-    
+
             const addedProduct = await response.json();
-            
+
             setProducts(currentProducts => [...currentProducts, addedProduct]);
             setShowPopup(false);
         } catch (error) {
@@ -111,9 +111,6 @@ function Home() {
                             ))}
                         </select>
                     </div>
-                    {/* <div style={{ fontSize: '30px' }}>
-                        Products
-                    </div> */}
                     <div>
                         <AddCircleIcon style={{ fontSize: '40px' }} onClick={() => setShowPopup(true)} />
                         {showPopup && <ProductPopup onSave={addProductHandler} onClose={() => setShowPopup(false)} categories={categories} />}
@@ -129,7 +126,6 @@ function Home() {
                             price={product.Cena}
                             image={product.ZdjecieProduktu}
                             rating={calculateAverageRating(product.reviews)}
-                            // rating={4}
                             reviews={product.reviews}
                             availability={product.Dostepnosc}
                             categoryId={product.KategoriaID}
@@ -145,9 +141,9 @@ export default Home
 
 function calculateAverageRating(reviews) {
     if (!reviews || reviews.length === 0) {
-        return 0; // Return 0 if there are no reviews
+        return 0;
     }
     const total = reviews.reduce((acc, review) => acc + review.Ocena, 0);
     const average = total / reviews.length;
-    return Math.max(1, Math.min(Math.round(average), 5)); // Ensures the result is between 1 and 5
+    return Math.max(1, Math.min(Math.round(average), 5));
 }

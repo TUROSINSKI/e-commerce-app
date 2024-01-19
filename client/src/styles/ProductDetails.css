@@ -58,9 +58,9 @@
 }
 
 .productDetails__review {
-    border-top: 1px solid #ccc; /* Adjust color and size as needed */
-    padding-top: 10px; /* Optional: Add some space between the border and the content */
-    margin-top: 10px; /* Optional: Add some space above the border */
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    margin-top: 10px;
 }
 
 .productDetails__review:first-child {

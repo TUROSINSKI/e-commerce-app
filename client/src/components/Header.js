@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 function Header() {
 
     const [{ basket }, dispatch] = useStateValue();
-    // const [imie, setImie] = useState('');
     const { isLoggedIn, userData, logout } = useAuth();
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
@@ -33,15 +32,15 @@ function Header() {
 
             <div className="header__search">
                 <input className="header__searchInput" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onKeyDown={(e) => {
-            if (e.key === 'Enter' && searchTerm.trim() !== '') {
-                handleSearch();
-            }
-        }}/>
+                    if (e.key === 'Enter' && searchTerm.trim() !== '') {
+                        handleSearch();
+                    }
+                }} />
                 <SearchIcon className="header__searchIcon" onClick={() => {
-        if (searchTerm.trim() !== '') {
-            handleSearch();
-        }
-    }}/>
+                    if (searchTerm.trim() !== '') {
+                        handleSearch();
+                    }
+                }} />
             </div>
 
             <div className="header__nav">

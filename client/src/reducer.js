@@ -31,7 +31,7 @@ const reducer = (state, action) => {
             case 'CLEAR_BASKET':
                 return {
                     ...state,
-                    basket: [] // Reset the basket to an empty array
+                    basket: []
                 };
     }
 }

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import '../styles/SignUp.css'
 import { useNavigate } from 'react-router-dom';
 
@@ -42,19 +42,19 @@ function SignUp() {
         <div className="signUp">
             <div className="signUp__container">
                 <h1>Sign Up</h1>
-                
+
                 <form onSubmit={handleSubmit}>
                     <h5>Name</h5>
-                    <input type="text" value={Imie} onChange={(e) => setImie(e.target.value)}/>
+                    <input type="text" value={Imie} onChange={(e) => setImie(e.target.value)} />
 
                     <h5>Surname</h5>
-                    <input type="text" value={Nazwisko} onChange={(e) => setNazwisko(e.target.value)}/>
+                    <input type="text" value={Nazwisko} onChange={(e) => setNazwisko(e.target.value)} />
 
                     <h5>Email</h5>
-                    <input type="text" value={Email} onChange={(e) => setEmail(e.target.value)}/>
+                    <input type="text" value={Email} onChange={(e) => setEmail(e.target.value)} />
 
                     <h5>Password</h5>
-                    <input type="password" value={Haslo} onChange={(e) => setHaslo(e.target.value)}/>
+                    <input type="password" value={Haslo} onChange={(e) => setHaslo(e.target.value)} />
 
                     <button type="submit" className="signUp__button">Sign In</button>
                 </form>

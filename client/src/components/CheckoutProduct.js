@@ -43,10 +43,10 @@ function CheckoutProduct({ id, image, title, price, rating }) {
                 </div>
             </div>
             <button onClick={removeFromBasket}>
-                <RemoveIcon/>
+                <RemoveIcon />
             </button>
             <button onClick={addAnotherToBasket}>
-                <AddIcon/>
+                <AddIcon />
             </button>
         </div>
     )

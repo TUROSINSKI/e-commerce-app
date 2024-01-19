@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Product({ id, title, description, image, price, rating, categoryId, availability, reviews }) {
 
-    const [ {basket}, dispatch] = useStateValue();
+    const [{ basket }, dispatch] = useStateValue();
 
     const navigate = useNavigate();
 
@@ -22,8 +22,8 @@ function Product({ id, title, description, image, price, rating, categoryId, ava
         })
     }
 
-    const openDetails = () => {navigate('/details/'+id, {state: {id, title, description, image, price, categoryId, availability, rating, reviews}})};
-    
+    const openDetails = () => { navigate('/details/' + id, { state: { id, title, description, image, price, categoryId, availability, rating, reviews } }) };
+
     return (
         <div className="product">
             <div className="product__info" >

@@ -4,13 +4,12 @@
     margin-left: auto;
     margin-right: auto;
     max-width: 1500px;
-    flex-wrap: wrap; /* Add this to allow wrapping of items */
+    flex-wrap: wrap;
 }
 
 .home__container > img {
     width: 100%;
     z-index: -1;
-    /* margin-bottom: -150px; */
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
 
@@ -42,13 +41,13 @@
     z-index: 1;
     margin-left: 5px;
     margin-right: 5px;
-    flex-wrap: wrap; /* Enable wrapping for product items */
-    justify-content: space-around; /* This will space out your items nicely */
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 .home__row > div {
-    flex: 1 1 30%; /* Adjust each product item to take up to 30% of the row width */
-    margin: 10px; /* Add some margin around each product */
+    flex: 1 1 30%;
+    margin: 10px;
 }
 
 
