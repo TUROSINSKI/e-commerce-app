@@ -18,12 +18,29 @@ function Home() {
     const searchQuery = searchParams.get('search');
 
     useEffect(() => {
-        setCategories([
-            { KategoriaID: 1, NazwaKategorii: 'Elektronika' },
-            { KategoriaID: 2, NazwaKategorii: 'Książki' },
-            { KategoriaID: 3, NazwaKategorii: 'Odzież' },
-            { KategoriaID: 4, NazwaKategorii: 'Dom i Ogród' },
-        ]);
+        setIsLoading(true);
+    
+        const categoryIds = [1, 2, 3, 4]; // Assuming these are the IDs you need
+        Promise.all(categoryIds.map(id =>
+            fetch(`http://localhost:5000/api/getCategoryById/${id}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error fetching category');
+                    }
+                    return response.json();
+                })
+        ))
+        .then(categories => {
+            setCategories(categories);
+            console.log(categories)
+        })
+        .catch(err => {
+            setError(err.message);
+        })
+        .finally(() => {
+            setIsLoading(false);
+        });
+    
     }, []);
 
     useEffect(() => {
@@ -116,14 +133,19 @@ function Home() {
                 <img src="https://img.freepik.com/free-photo/side-view-woman-holding-smartphone-shopping-bags-cyber-monday_23-2148657647.jpg?w=1380&t=st=1705107150~exp=1705107750~hmac=affaa64e8f7b9943e4db25a8f8d59d6c3ac6813bf6e3615b3a18ac674d107cc6" />
                 <div className="home__toolbar">
                     <div>
-                        <select className="toolbar__categoryFilter" value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)}>
-                            <option value="">All Categories</option>
-                            {categories.map(category => (
-                                <option key={category.KategoriaID} value={category.KategoriaID}>
-                                    {category.NazwaKategorii}
-                                </option>
-                            ))}
-                        </select>
+                    <select 
+    className="toolbar__categoryFilter" 
+    value={selectedCategory} 
+    onChange={e => setSelectedCategory(e.target.value)}
+>
+    <option value="">All Categories</option>
+    {categories.map((category, index) => (
+        <option key={index} value={index+1}>
+            {category.NazwaKategorii}
+        </option>
+    ))}
+</select>
+
                     </div>
                     <div>
                         <AddCircleIcon style={{ fontSize: '40px' }} onClick={() => setShowPopup(true)} />
