@@ -35,7 +35,7 @@ function ProductPopup({ onClose, onSave, initialData = {}, isEditing = false, ca
 
     return (
         <div className="product-popup-backdrop">
-            <div className="product-popup-container">
+            <div className="product__popup__container">
                 <form onSubmit={handleSubmit}>
                     <input name="NazwaProduktu" value={product.NazwaProduktu} onChange={handleChange} placeholder="Nazwa Produktu" />
                     <input name="OpisProduktu" value={product.OpisProduktu} onChange={handleChange} placeholder="Opis Produktu" />
