@@ -1,12 +1,9 @@
 .checkout {
     display: flex;
+    flex-direction: column;
     padding: 20px;
     background-color: white;
     height: max-content;
-}
-
-.checkout__left {
-    width: 100%;
 }
 
 .checkout__title {
@@ -14,3 +11,24 @@
     padding: 10px;
     border-bottom: 1px solid lightgray;
 }
+
+.checkout__right {
+    order: -1;
+}
+
+@media (min-width: 768px) {
+    .checkout {
+        flex-direction: row;
+    }
+
+    .checkout__left,
+    .checkout__right {
+        order: 0;
+        width: auto;
+    }
+
+    .checkout__left {
+        flex-grow: 1;
+    }
+}
+
