@@ -2,7 +2,7 @@
 
 <p align="center"><img src="https://socialify.git.ci/TUROSINSKI/e-commerce-app/image?description=1&amp;font=Bitter&amp;language=1&amp;name=1&amp;owner=1&amp;pattern=Brick%20Wall&amp;theme=Light" alt="project-image"></p>
 
-<p id="description">E-Commerce web application modeled after Amazon's online store.</p>
+<p id="description">E-Commerce web application modeled after Amazon's online store. Application backend created by https://github.com/PanRadziu</p>
 
 <h2>Project Screenshots:</h2>
 
