@@ -7,11 +7,54 @@
 
 .productDetails__title {
     width: 100%;
+    margin-bottom: 10px;
 }
 
 .productDetails__image {
     max-width: 100%;
     height: 500px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: solid lightgray 1px;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.productDetails__description {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: solid lightgray 1px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.productDetails__buttonColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.productDetails__editButton {
+    border-radius: 8px;
+    height: 30px;
+    background-color: #bae1ff;
+    border: solid 1px lightgray;
+}
+
+.productDetails__deleteButton {
+    border-radius: 8px;
+    height: 30px;
+    background-color: #ffb3ba;
+    border: solid 1px lightgray;
+}
+
+.productDetails__addButton {
+    margin-top: 40px;
+    border-radius: 8px;
+    height: 30px;
+    background-color: #ffc83d;
+    border: solid 1px lightgray;
 }
 
 .productDetails__review {
@@ -31,6 +74,7 @@
     border-top: 1px solid lightgray;
     margin-top: 20px;
     padding: 10px;
+    background-color: white;
 }
 
 .popup {

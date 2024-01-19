@@ -24,14 +24,6 @@ function Header() {
         }
     };
 
-    // useEffect(() => {
-    //     const userString = localStorage.getItem('user');
-    //     if (userString) {
-    //         const user = JSON.parse(userString);
-    //         setImie(user[0].Imie); // Update 'imie' state
-    //     }
-    // }, []);
-
     return (
         <div className="header">
             <Link to='/' className="header__logo" style={{ textDecoration: 'none' }}>
@@ -40,8 +32,16 @@ function Header() {
             </Link>
 
             <div className="header__search">
-                <input className="header__searchInput" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-                <SearchIcon className="header__searchIcon" onClick={handleSearch}/>
+                <input className="header__searchInput" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onKeyDown={(e) => {
+            if (e.key === 'Enter' && searchTerm.trim() !== '') {
+                handleSearch();
+            }
+        }}/>
+                <SearchIcon className="header__searchIcon" onClick={() => {
+        if (searchTerm.trim() !== '') {
+            handleSearch();
+        }
+    }}/>
             </div>
 
             <div className="header__nav">

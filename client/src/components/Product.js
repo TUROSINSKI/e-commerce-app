@@ -40,8 +40,8 @@ function Product({ id, title, description, image, price, rating, categoryId, ava
             </div>
             <img src={image} />
 
-            <button onClick={openDetails}>Show details</button>
-            <button onClick={addToBasket}>Add to Cart</button>
+            <button className="product__detailsButton" onClick={openDetails}>Show details</button>
+            <button className="product__addButton" onClick={addToBasket}>Add to Cart</button>
 
         </div>
     )

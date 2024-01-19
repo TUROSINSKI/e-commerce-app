@@ -26,6 +26,15 @@
     margin-right: 15px;
     padding-left: 20px;
     padding-right: 20px;
+    border-radius: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.toolbar__categoryFilter {
+    height: 30px;
+    width: 140px;
+    border-radius: 12px;
+    text-align: center;
 }
 
 .home__row {

@@ -6,6 +6,7 @@
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .header__logo {
@@ -24,7 +25,6 @@
     display: flex;
     flex: 1;
     align-items: center;
-    border-radius: 24px;
 }
 
 .header__searchInput {
@@ -32,12 +32,16 @@
     padding: 10px;
     border: none;
     width: 100%;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
 }
 
 .header__searchIcon {
     padding: 5px;
     height: 22px !important;
     background-color: #f69a33;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
 
 .header__optionLineOne {

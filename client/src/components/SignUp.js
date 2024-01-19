@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import '../styles/SignUp.css'
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
 
@@ -7,6 +8,7 @@ function SignUp() {
     const [Nazwisko, setNazwisko] = useState('');
     const [Email, setEmail] = useState('');
     const [Haslo, setHaslo] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,6 +28,8 @@ function SignUp() {
 
             if (response.status === 200) {
                 console.log('Registration successful:', data);
+                navigate('/signin');
+                alert("Registration successful. Now, you can sign in.")
             } else {
                 console.error('Registration failed:', data.error);
             }

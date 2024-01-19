@@ -133,14 +133,14 @@ function ProductDetails() {
     return (
         <div className="productDetails">
             <h2 className="productDetails__title">{title}</h2>
-            <p className="productDetails__price">Price: zł{price}</p>
+            <p className="productDetails__price"><strong>Price:</strong> <small>zł</small>{price}</p>
             <img className="productDetails__image" src={image} alt={title} />
-            <p>{description}</p>
-            <div>
+            <p className="productDetails__description"><h3>Description:</h3>{description}</p>
+            <div className="productDetails__buttonColumn">
                 {userData && userData[0].rola === 'admin' && (
                     <>
-                        <button onClick={() => setShowEditPopup(true)}>Edit Product</button>
-                        <button onClick={handleDeleteProduct}>Delete Product</button>
+                        <button className="productDetails__editButton" onClick={() => setShowEditPopup(true)}>Edit Product</button>
+                        <button className="productDetails__deleteButton" onClick={handleDeleteProduct}>Delete Product</button>
                     </>
                 )}
                 {showEditPopup && (
@@ -154,7 +154,7 @@ function ProductDetails() {
                 )}
 
 
-                <button onClick={() => setShowPopup(true)}>Add Review</button>
+                <button className="productDetails__addButton" onClick={() => setShowPopup(true)}>Add Review</button>
                 {showPopup && (
                     <div className="popup">
                         <div className="popup-content">

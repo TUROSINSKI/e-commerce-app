@@ -27,6 +27,12 @@ const reducer = (state, action) => {
 
         default:
             return state;
+
+            case 'CLEAR_BASKET':
+                return {
+                    ...state,
+                    basket: [] // Reset the basket to an empty array
+                };
     }
 }
 

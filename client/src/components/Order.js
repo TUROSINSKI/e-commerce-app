@@ -2,11 +2,13 @@ import React from "react";
 import '../styles/Order.css'
 import { useStateValue } from "../StateProvider";
 import { getBasketTotal } from "../reducer";
+import { useNavigate } from 'react-router-dom';
 
 function Order() {
 
     const token = localStorage.getItem('token');
     const [{ basket }, dispatch] = useStateValue();
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -33,6 +35,11 @@ function Order() {
 
             const result = await response.json();
             console.log("Order created", result);
+            dispatch({
+                type: 'CLEAR_BASKET'
+            });
+            alert("Zamowienie złożone. Dziękujemy za skorzystanie z naszego sklepu!")
+            navigate('/');
         } catch {
             alert("Error creating the order");
         }
