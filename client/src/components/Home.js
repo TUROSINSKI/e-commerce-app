@@ -10,6 +10,7 @@ import { useAuth } from "../AuthContext";
 
 function Home() {
 
+    const [sortOrder, setSortOrder] = useState('asc');
     const [products, setProducts] = useState([]);
     const { userData } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
@@ -45,9 +46,17 @@ function Home() {
     useEffect(() => {
         setIsLoading(true);
 
-        let url = 'http://localhost:5000/api/getProducts';
+        // let url = 'http://localhost:5000/api/getProducts';
+        // let options = {
+        //     method: 'GET'
+        // };
+        let url = 'http://localhost:5000/api/getProductSort';
         let options = {
-            method: 'GET'
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ sortOrder: sortOrder }) // Include sortOrder in the request
         };
 
         if (selectedCategory !== '') {
@@ -91,7 +100,7 @@ function Home() {
                 setIsLoading(false);
             });
 
-    }, [selectedCategory, searchQuery]);
+    }, [selectedCategory, searchQuery, sortOrder]);
 
     console.log(products);
 
@@ -102,6 +111,10 @@ function Home() {
     if (error) {
         return <p>{error}</p>;
     }
+
+    const handleSortChange = (e) => {
+        setSortOrder(e.target.value);
+    };
 
     const addCategoryHandler = async (categoryName) => {
         try {
@@ -169,8 +182,13 @@ function Home() {
                         </select>
 
                     </div>
-                    <select className="toolbar__categoryFilter">
-
+                    <select 
+                        className="toolbar__categoryFilter"
+                        value={sortOrder}
+                        onChange={handleSortChange}
+                    >
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
                     </select>
                     {userData && userData[0].rola === 'admin' && (
                     <>
