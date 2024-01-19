@@ -30,7 +30,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import {addProduct, editProduct, deleteProduct, getProducts, getProduct,getProductsByCategory, registerUser, loginUser, addToCart, removeFromCart, addReview,getReviewsForProduct, verifyToken, createOrder,findUser, getCategoryById, getProductSort} from './database.js';
+import {addProduct, editProduct, deleteProduct, getProducts, getProduct,getProductsByCategory, registerUser, loginUser, addToCart, removeFromCart, addReview,getReviewsForProduct, verifyToken, createOrder,findUser, getCategoryById, getProductSort, addNewCategory, getCategoryID, getCategory} from './database.js';
 const app = express()
 app.use(cors());
 app.use(express.json())
@@ -120,17 +120,6 @@ app.get("/api/getProduct/:id", async (req, res) => {
   }
 });
 
-app.post("/api/getProductSort", async (req, res) => {
-  const { sortOrder } = req.body;
-  try {
-    const products = await getProductSort(sortOrder);
-    res.send(products);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send({ error: "Internal Server Error" });
-  }
-});
-
 app.post("/api/getProductsByCategory", async (req, res) => {
   const { filterCategory } = req.body;
   try {
@@ -141,6 +130,37 @@ app.post("/api/getProductsByCategory", async (req, res) => {
     res.status(500).send({ error: "Internal Server Error" });
   }
 });
+
+app.post("/api/addNewCategory", async (req, res) => {
+  const { NazwaKategorii } = req.body;
+  try {
+    const result = await addNewCategory(NazwaKategorii);
+    res.send(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+});
+app.get("/api/getCategoryId", async (req, res) => {
+  try {
+    const result = await getCategoryID();
+    res.send(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+});
+
+app.get("/api/getCategory", async (req, res) => {
+  try {
+    const result = await getCategory();
+    res.send(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+});
+
 
 app.get("/api/getCategoryById/:id", async (req, res) => {
   const id = req.params.id;
@@ -153,9 +173,6 @@ app.get("/api/getCategoryById/:id", async (req, res) => {
   }
 });
 
-app.listen(8000, () => {
-  console.log("Server is running on port 8000");
-});
 
 app.post("/api/addProduct", async (req, res) => {
   const { NazwaProduktu, OpisProduktu, Cena, Dostepnosc, KategoriaID, ZdjecieProduktu } = req.body;
@@ -264,6 +281,16 @@ app.post('/api/createOrder', verifyToken, async (req, res) => {
 //   }
 // });
 
+app.post("/api/getProductSort", async (req, res) => {
+  const { sortOrder } = req.body;
+  try {
+    const products = await getProductSort(sortOrder);
+    res.send(products);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+});
 
 // error handler
 app.use(function(err, req, res, next) {

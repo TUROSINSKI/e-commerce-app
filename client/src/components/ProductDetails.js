@@ -14,14 +14,26 @@ function ProductDetails() {
     const [showPopup, setShowPopup] = useState(false);
     const [showEditPopup, setShowEditPopup] = useState(false);
     const [reviewUserDetails, setReviewUserDetails] = useState({});
+    const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
 
-    const [categories, setCategories] = useState([
-        { KategoriaID: 1, NazwaKategorii: 'Elektronika' },
-        { KategoriaID: 2, NazwaKategorii: 'Książki' },
-        { KategoriaID: 3, NazwaKategorii: 'Odzież' },
-        { KategoriaID: 4, NazwaKategorii: 'Dom i Ogród' },
-    ]);
+    const fetchCategories = () => {
+        fetch('http://localhost:5000/api/getCategory')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error fetching categories');
+                }
+                return response.json();
+            })
+            .then(categories => {
+                setCategories(categories);
+                console.log(categories);
+            })
+            .catch(err => {
+                console.log(err.message);
+            })
+    };
+
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -136,18 +148,18 @@ function ProductDetails() {
             <div className="productDetails__buttonColumn">
                 {userData && userData[0].rola === 'admin' && (
                     <>
-                        <button className="productDetails__editButton" onClick={() => setShowEditPopup(true)}>Edit Product</button>
+                        <button className="productDetails__editButton" onClick={() => setShowEditPopup(true) & fetchCategories()}>Edit Product</button>
+                        {showEditPopup && (
+                            <ProductPopup
+                                initialData={productDetails}
+                                onSave={handleEditProduct}
+                                onClose={() => setShowEditPopup(false)}
+                                isEditing={true}
+                                categories={categories}
+                            />
+                        )}
                         <button className="productDetails__deleteButton" onClick={handleDeleteProduct}>Delete Product</button>
                     </>
-                )}
-                {showEditPopup && (
-                    <ProductPopup
-                        initialData={productDetails}
-                        onSave={handleEditProduct}
-                        onClose={() => setShowEditPopup(false)}
-                        isEditing={true}
-                        categories={categories}
-                    />
                 )}
 
 

@@ -111,9 +111,9 @@ export async function getProducts() {
         return rows
   }
   
-  export async function getProductsByCategory(filterCategory) {
+export async function getProductsByCategory(filterCategory) {
     try {
-      const [rows] = await pool.query("SELECT * FROM Produkty WHERE KategoriaID = ?", [filterCategory]);
+      const [rows] = await pool.query(`SELECT * FROM Produkty WHERE KategoriaID = ?`, [filterCategory]);
       return rows;
     } catch (error) {
       console.error(error.message);
@@ -123,7 +123,7 @@ export async function getProducts() {
 
   export async function getProductSort(sortOrder) {
     try {
-      const [rows] = await pool.query("SELECT * FROM Produkty ORDER BY Cena ${sortOrder}");
+      const [rows] = await pool.query(`SELECT * FROM Produkty ORDER BY Cena ${sortOrder}`);
       return rows;
     } catch (error) {
       console.error(error.message);
@@ -137,7 +137,24 @@ export async function getProducts() {
         return rows[0];
   }
 
-//TRZEBA BARDZIEJ POMYSLEC BO NIE DZIALA TAK JAK CHCE (PRZECIEZ UZYTKOWNIK MOZE MIEC WIELE PRODUKTOW W KOSZYKU)
+  export async function getCategoryID() {
+    const [rows] = await pool.query(`
+        SELECT KategoriaID FROM Kategorie`);
+        return rows;
+  }
+
+  export async function getCategory() {
+    const [rows] = await pool.query(`
+        SELECT * FROM Kategorie`);
+        return rows;
+  }
+
+
+  export async function addNewCategory(NazwaKategorii) {
+    const [rows] = await pool.query(`
+        INSERT INTO Kategorie (NazwaKategorii) VALUES (?)`, [NazwaKategorii]);
+        return rows;
+  }
 
   export async function addToCart(ZamowienieID, ProduktID, Ilosc) {
     const getProductPriceQuery = "SELECT Cena FROM Produkty WHERE ProduktID = ?";

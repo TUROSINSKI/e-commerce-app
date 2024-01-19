@@ -7,23 +7,22 @@ function ProductPopup({ onClose, onSave, initialData = {}, isEditing = false, ca
         OpisProduktu: '',
         Cena: '',
         Dostepnosc: '',
-        KategoriaID: '',
+        KategoriaID: '',  // Assuming this is the ID, not the name
         ZdjecieProduktu: ''
     });
 
     useEffect(() => {
         if (isEditing) {
-            const categoryName = categories.find(cat => cat.KategoriaID === initialData.categoryId)?.NazwaKategorii || '';
             setProduct({
                 NazwaProduktu: initialData.title || '',
                 OpisProduktu: initialData.description || '',
                 Cena: initialData.price || '',
                 Dostepnosc: initialData.availability || '',
-                KategoriaID: categoryName || '',
+                KategoriaID: initialData.categoryId || '',  // Use the categoryId directly
                 ZdjecieProduktu: initialData.image || ''
             });
         }
-    }, [initialData, isEditing, categories]);
+    }, [initialData, isEditing]);
 
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
@@ -31,16 +30,7 @@ function ProductPopup({ onClose, onSave, initialData = {}, isEditing = false, ca
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const categoryId = categories.find(cat => cat.NazwaKategorii === product.KategoriaID)?.KategoriaID;
-        if (!categoryId) {
-            alert("Please select a valid category.");
-            return;
-        }
-        const updatedProduct = {
-            ...product,
-            KategoriaID: categoryId
-        };
-        onSave(updatedProduct);
+        onSave(product);
     };
 
     return (
@@ -51,7 +41,14 @@ function ProductPopup({ onClose, onSave, initialData = {}, isEditing = false, ca
                     <input name="OpisProduktu" value={product.OpisProduktu} onChange={handleChange} placeholder="Opis Produktu" />
                     <input name="Cena" value={product.Cena} onChange={handleChange} placeholder="Cena" />
                     <input name="Dostepnosc" value={product.Dostepnosc} onChange={handleChange} placeholder="Dostepnosc" />
-                    <input name="KategoriaID" value={product.KategoriaID} onChange={handleChange} placeholder="Kategoria" />
+                    <select name="KategoriaID" value={product.KategoriaID} onChange={handleChange}>
+                        <option value="">Select a Category</option>
+                        {categories.map((category) => (
+                            <option key={category.KategoriaID} value={category.KategoriaID}>
+                                {category.NazwaKategorii}
+                            </option>
+                        ))}
+                    </select>
                     <input name="ZdjecieProduktu" value={product.ZdjecieProduktu} onChange={handleChange} placeholder="Zdjecie" />
                     <button type="submit">Save Product</button>
                     <button onClick={onClose}>Close</button>

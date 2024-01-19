@@ -4,42 +4,42 @@ import Product from "./Product";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ProductPopup from "./ProductPopup";
 import { useLocation } from "react-router-dom";
+import CategoryIcon from '@mui/icons-material/Category';
+import AddCategoryPopup from "./CategoryPopup";
+import { useAuth } from "../AuthContext";
 
 function Home() {
 
     const [products, setProducts] = useState([]);
+    const { userData } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [categories, setCategories] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
+    const [showCategoryPopup, setShowCategoryPopup] = useState(false);
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const searchQuery = searchParams.get('search');
-
-    useEffect(() => {
-        setIsLoading(true);
-        const categoryIds = [1, 2, 3, 4];
-        Promise.all(categoryIds.map(id =>
-            fetch(`http://localhost:5000/api/getCategoryById/${id}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error fetching category');
-                    }
-                    return response.json();
-                })
-        ))
+    
+    const fetchCategories = () => {
+        fetch('http://localhost:5000/api/getCategory')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error fetching categories');
+                }
+                return response.json();
+            })
             .then(categories => {
                 setCategories(categories);
-                console.log(categories)
             })
             .catch(err => {
-                setError(err.message);
+                console.log(err.message);
             })
-            .finally(() => {
-                setIsLoading(false);
-            });
+    };
 
+    useEffect(() => {
+        fetchCategories();
     }, []);
 
     useEffect(() => {
@@ -103,6 +103,29 @@ function Home() {
         return <p>{error}</p>;
     }
 
+    const addCategoryHandler = async (categoryName) => {
+        try {
+            const response = await fetch('http://localhost:5000/api/addNewCategory', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ NazwaKategorii: categoryName })
+            });
+
+            if (!response.ok) {
+                throw new Error('Category could not be added');
+            }
+
+            const addedCategory = await response.json();
+            setCategories(currentCategories => [...currentCategories, addedCategory]);
+            fetchCategories();
+            setShowCategoryPopup(false);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     const addProductHandler = async (product) => {
         try {
             const response = await fetch('http://localhost:5000/api/addProduct', {
@@ -146,6 +169,20 @@ function Home() {
                         </select>
 
                     </div>
+                    <select className="toolbar__categoryFilter">
+
+                    </select>
+                    {userData && userData[0].rola === 'admin' && (
+                    <>
+                        <div>
+                        <CategoryIcon style={{ fontSize: '40px' }} onClick={() => setShowCategoryPopup(true)} />
+                        {showCategoryPopup && (
+                            <AddCategoryPopup onSave={addCategoryHandler} onClose={() => setShowCategoryPopup(false)} />
+                        )}
+                    </div>
+                    </>
+                )}
+                    
                     <div>
                         <AddCircleIcon style={{ fontSize: '40px' }} onClick={() => setShowPopup(true)} />
                         {showPopup && <ProductPopup onSave={addProductHandler} onClose={() => setShowPopup(false)} categories={categories} />}
