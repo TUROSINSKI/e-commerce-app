@@ -162,6 +162,7 @@ app.get("/api/getCategory", async (req, res) => {
 });
 
 
+
 app.get("/api/getCategoryById/:id", async (req, res) => {
   const id = req.params.id;
   try {
@@ -282,15 +283,25 @@ app.post('/api/createOrder', verifyToken, async (req, res) => {
 // });
 
 app.post("/api/getProductSort", async (req, res) => {
-  const { sortOrder } = req.body;
+  const { products, sortOrder } = req.body;
+
+  if (!Array.isArray(products)) {
+    return res.status(400).send({ error: 'Input must be an array of products.' });
+  }
+
+  if (!['asc', 'desc'].includes(sortOrder)) {
+    return res.status(400).send({ error: 'Invalid sort order. Use "asc" or "desc".' });
+  }
+
   try {
-    const products = await getProductSort(sortOrder);
-    res.send(products);
+    const sortedProducts = await getProductSort(products, sortOrder);
+    res.send({ sortedProducts });
   } catch (error) {
-    console.error(error.message);
-    res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send({ error: 'Internal Server Error' });
   }
 });
+
+
 
 // error handler
 app.use(function(err, req, res, next) {

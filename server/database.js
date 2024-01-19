@@ -121,15 +121,15 @@ export async function getProductsByCategory(filterCategory) {
     }
   }
 
-  export async function getProductSort(sortOrder) {
-    try {
-      const [rows] = await pool.query(`SELECT * FROM Produkty ORDER BY Cena ${sortOrder}`);
-      return rows;
-    } catch (error) {
-      console.error(error.message);
-      throw error;
-    }
-  }
+  export async function getProductSort(products, sortOrder) {
+      return products.sort((a, b) => {
+        if (sortOrder === 'desc') {
+          return b.Cena - a.Cena;
+        }
+        return a.Cena - b.Cena; // Domyślnie dla 'asc'
+      });
+    } 
+  
 
   export async function getCategoryById(KategoriaID) {
     const [rows] = await pool.query(`
@@ -149,7 +149,7 @@ export async function getProductsByCategory(filterCategory) {
         return rows;
   }
 
-
+ 
   export async function addNewCategory(NazwaKategorii) {
     const [rows] = await pool.query(`
         INSERT INTO Kategorie (NazwaKategorii) VALUES (?)`, [NazwaKategorii]);

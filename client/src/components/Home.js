@@ -43,22 +43,70 @@ function Home() {
         fetchCategories();
     }, []);
 
+    // useEffect(() => {
+    //     setIsLoading(true);
+
+    //     // let url = 'http://localhost:5000/api/getProducts';
+    //     // let options = {
+    //     //     method: 'GET'
+    //     // };
+    //     let url = 'http://localhost:5000/api/getProductSort';
+    //     let options = {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ sortOrder: sortOrder }) // Include sortOrder in the request
+    //     };
+
+    //     if (selectedCategory !== '') {
+    //         url = 'http://localhost:5000/api/getProductsByCategory';
+    //         options = {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({ filterCategory: selectedCategory })
+    //         };
+    //     }
+
+    //     fetch(url, options)
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 throw new Error('Error fetching products');
+    //             }
+    //             return response.json();
+    //         })
+            // .then(data => {
+            //     if (searchQuery) {
+            //         data = data.filter(product =>
+            //             product.NazwaProduktu.toLowerCase().includes(searchQuery.toLowerCase())
+            //         );
+            //     }
+            //     return Promise.all(data.map(async product => {
+            //         const res = await fetch(`http://localhost:5000/api/getReviewsForProduct/${product.ProduktID}`);
+            //         const reviews = await res.json();
+            //         const comments = reviews.map(review => review.Komentarz);
+            //         return { ...product, reviews, comments };
+            //     }));
+            // })
+    //         .then(productsWithReviews => {
+    //             console.log('Products with reviews:', productsWithReviews);
+    //             setProducts(productsWithReviews);
+    //             setIsLoading(false);
+    //         })
+    //         .catch(err => {
+    //             setError(err.message);
+    //             setIsLoading(false);
+    //         });
+
+    // }, [selectedCategory, searchQuery, sortOrder]);
+
     useEffect(() => {
         setIsLoading(true);
-
-        // let url = 'http://localhost:5000/api/getProducts';
-        // let options = {
-        //     method: 'GET'
-        // };
-        let url = 'http://localhost:5000/api/getProductSort';
-        let options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ sortOrder: sortOrder }) // Include sortOrder in the request
-        };
-
+        let url;
+        let options;
+    
         if (selectedCategory !== '') {
             url = 'http://localhost:5000/api/getProductsByCategory';
             options = {
@@ -68,8 +116,12 @@ function Home() {
                 },
                 body: JSON.stringify({ filterCategory: selectedCategory })
             };
+        } else {
+            url = 'http://localhost:5000/api/getProducts'; // URL to fetch all products
+            options = { method: 'GET' };
         }
-
+    
+        // Fetch the initial list of products based on the category
         fetch(url, options)
             .then(response => {
                 if (!response.ok) {
@@ -90,16 +142,31 @@ function Home() {
                     return { ...product, reviews, comments };
                 }));
             })
-            .then(productsWithReviews => {
-                console.log('Products with reviews:', productsWithReviews);
-                setProducts(productsWithReviews);
+            .then(products => {
+                // Now call the new sorting API
+                return fetch('http://localhost:5000/api/getProductSort', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ products: products, sortOrder: sortOrder })
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error sorting products');
+                }
+                return response.json();
+            })
+            .then(sortedData => {
+                setProducts(sortedData.sortedProducts); // Update your state with the sorted products
                 setIsLoading(false);
             })
             .catch(err => {
                 setError(err.message);
                 setIsLoading(false);
             });
-
+    
     }, [selectedCategory, searchQuery, sortOrder]);
 
     console.log(products);
