@@ -141,7 +141,9 @@ function ProductDetails() {
 
     return (
         <div className="productDetails">
-            <h2 className="productDetails__title">{title}</h2>
+            <div className="productDetails__titleContainer">
+                <h2 className="productDetails__title">{title}</h2>
+            </div>
             <p className="productDetails__price"><strong>Price:</strong> <small>zł</small>{price}</p>
             <img className="productDetails__image" src={image} alt={title} />
             <p className="productDetails__description"><h3>Description:</h3>{description}</p>

@@ -29,6 +29,14 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.home__toolbar > * {
+    margin: 10px;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
 .toolbar__categoryFilter {
     height: 30px;
     width: 140px;
@@ -50,17 +58,14 @@
     margin: 10px;
 }
 
-
-/* For tablets and smaller devices */
 @media (max-width: 768px) {
     .home__row > div {
-        flex: 1 1 45%; /* Each product will take up roughly half the width of the row */
+        flex: 1 1 45%;
     }
 }
 
-/* For mobile devices */
 @media (max-width: 480px) {
     .home__row > div {
-        flex: 1 1 100%; /* Each product will take the full width of the row */
+        flex: 1 1 100%;
     }
 }

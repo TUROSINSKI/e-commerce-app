@@ -257,6 +257,7 @@ function Home() {
                         <option value="asc">Ascending</option>
                         <option value="desc">Descending</option>
                     </select>
+                    <div className="spacer"></div>
                     {userData && userData[0].rola === 'admin' && (
                     <>
                         <div>
