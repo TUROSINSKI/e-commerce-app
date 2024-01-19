@@ -111,19 +111,19 @@ export async function getProducts() {
         return rows
   }
   
-export async function getProductsByCategory(filterCategory, sortField, sortOrder) {
-    let sql = "SELECT * FROM Produkty";
-  
-    if (filterCategory) {
-      sql += ` WHERE KategoriaID = ${filterCategory}`;
-    }
-  
-    if (sortField && sortOrder) {
-      sql += ` ORDER BY ${sortField} ${sortOrder}`;
-    }
-  
+  export async function getProductsByCategory(filterCategory) {
     try {
-      const [rows] = await pool.query(sql);
+      const [rows] = await pool.query("SELECT * FROM Produkty WHERE KategoriaID = ?", [filterCategory]);
+      return rows;
+    } catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
+  export async function getProductSort(sortOrder) {
+    try {
+      const [rows] = await pool.query("SELECT * FROM Produkty ORDER BY Cena ${sortOrder}");
       return rows;
     } catch (error) {
       console.error(error.message);

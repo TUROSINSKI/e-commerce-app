@@ -30,7 +30,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import {addProduct, editProduct, deleteProduct, getProducts, getProduct,getProductsByCategory, registerUser, loginUser, addToCart, removeFromCart, addReview,getReviewsForProduct, verifyToken, createOrder,findUser, getCategoryById} from './database.js';
+import {addProduct, editProduct, deleteProduct, getProducts, getProduct,getProductsByCategory, registerUser, loginUser, addToCart, removeFromCart, addReview,getReviewsForProduct, verifyToken, createOrder,findUser, getCategoryById, getProductSort} from './database.js';
 const app = express()
 app.use(cors());
 app.use(express.json())
@@ -120,11 +120,21 @@ app.get("/api/getProduct/:id", async (req, res) => {
   }
 });
 
-app.get("/api/getProductsByCategory", async (req, res) => {
-  const { filterCategory, sortField, sortOrder } = req.query;
-
+app.post("/api/getProductSort", async (req, res) => {
+  const { sortOrder } = req.body;
   try {
-    const products = await getProductsByCategory(filterCategory, sortField, sortOrder);
+    const products = await getProductSort(sortOrder);
+    res.send(products);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/api/getProductsByCategory", async (req, res) => {
+  const { filterCategory } = req.body;
+  try {
+    const products = await getProductsByCategory(filterCategory);
     res.send(products);
   } catch (error) {
     console.error(error.message);

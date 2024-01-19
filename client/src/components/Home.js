@@ -28,11 +28,24 @@ function Home() {
 
     useEffect(() => {
         setIsLoading(true);
-        let url = selectedCategory === ''
-            ? 'http://localhost:5000/api/getProducts'
-            : `http://localhost:5000/api/getProductsByCategory?filterCategory=${selectedCategory}`;
-
-        fetch(url)
+    
+        let url = 'http://localhost:5000/api/getProducts';
+        let options = {
+            method: 'GET'
+        };
+    
+        if (selectedCategory !== '') {
+            url = 'http://localhost:5000/api/getProductsByCategory';
+            options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ filterCategory: selectedCategory })
+            };
+        }
+    
+        fetch(url, options)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error fetching products');
@@ -61,6 +74,7 @@ function Home() {
                 setError(err.message);
                 setIsLoading(false);
             });
+    
     }, [selectedCategory, searchQuery]);
 
     console.log(products);
